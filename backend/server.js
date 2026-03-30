@@ -1,15 +1,15 @@
 import 'dotenv/config';
 import express from 'express';
+import { connectDB } from './config/db.js';
+import analyticsRouter from './routes/siteRoutes.js';
 
 const app=express();
 const PORT=process.env.PORT;
-app.get('/',(req,res)=>{
-    return res.status(200).json({
-        success:true,
-        message:'tracker api is running'
-    })
-})
+
+app.use(express.json())
+app.use('/api/v1/analytics',analyticsRouter)
 
 app.listen(PORT,()=>{
     console.log(`tracker listening at http://localhost:${PORT}`)
+    connectDB();
 })
