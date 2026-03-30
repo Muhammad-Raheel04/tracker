@@ -8,6 +8,7 @@ const siteSchema=new mongoose.Schema({
     domain:{
         type:String,
         required:true,
+        unique:true,
     },
     token:{
         type:String,
