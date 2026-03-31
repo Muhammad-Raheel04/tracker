@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="hidden md:flex justify-between items-center py-4 px-6 bg-[#003F3A]">
+      <div className="hidden md:flex justify-between items-center py-4 px-6 bg-[#003F3A] border-b border-gray-600">
         <h1 className="text-white text-2xl font-extrabold tracking-wide">
           Tracker
         </h1>
@@ -26,7 +26,7 @@ const Header = () => {
         </Link>
       </div>
 
-      <div className="md:hidden flex flex-col py-4 px-4 bg-[#003F3A]">
+      <div className="md:hidden flex flex-col py-4 px-4 bg-[#003F3A] border-b border-gray-600">
 
         <div className="flex justify-between items-center">
           <h1 className="text-white text-2xl font-extrabold">Tracker</h1>
@@ -64,7 +64,7 @@ const Header = () => {
                 </Link>
               </nav>
             </div>
-            
+
             <div
               className="fixed inset-0 bg-black/40 z-40"
               onClick={() => setIsMenuOpen(false)}
