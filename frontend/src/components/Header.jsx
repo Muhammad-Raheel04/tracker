@@ -52,7 +52,7 @@ const Header = () => {
               </div>
 
               <nav className="flex flex-col gap-6 p-6 text-white">
-                <Link to="/" onClick={() => setIsMenuOpen(false)} className='border-b border-[14ead8#] pb-2'>Home</Link>
+                <Link to="/" onClick={() => setIsMenuOpen(false)} className='border-b border-[#14ead8] pb-2'>Home</Link>
                 <Link to="/features" onClick={() => setIsMenuOpen(false)} className='border-b border-[#14ead8] pb-2'>Features</Link>
                 <Link to="/pricing" onClick={() => setIsMenuOpen(false)} className='border-b border-[#14ead8] pb-2'>Pricing</Link>
                 <Link to="/docs" onClick={() => setIsMenuOpen(false)} className='border-b border-[#14ead8] pb-2'>Docs</Link>
