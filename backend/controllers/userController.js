@@ -50,3 +50,44 @@ export const registerUser=async(req,res)=>{
         })
     }
 }
+export const verify=async(req,res)=>{
+    try{
+        const authHeader=req.headers.authorization;
+        if(!authHeader || !authHeader.startsWith('Bearer')){
+            return res.status(400).json({
+                success:false,
+                message:"authorization missing",
+            })
+        }
+        const token=authHeader.split(" ")[1];
+        
+        let decoded;
+        try{
+            decoded=jwt.verify(token,process.env.SECRET_KEY);
+        }catch(err){
+            return res.status(400).json({
+                success:false,
+                message:"Expired or used token",
+            })
+        }   
+        const user=await User.findById(decoded.id);
+        if(!user){
+            return res.status(400).json({
+                success:false,
+                message:"user not found",
+            })
+        }
+        user.token=null;
+        user.isVerified=true;
+        await user.save();
+        return res.status(200).json({
+            success:true,
+            message:"Email Verified Successfully!",
+        })
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:'Internal server error',
+        })
+    };   
+}
