@@ -3,6 +3,7 @@ import HeroSection from '../components/HeroSection'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import WhatWeDeliver from '../components/WhatWeDeliver'
+import IntegrationSection from '../components/IntegrationSection'
 
 const LandingPage = () => {
   return (
@@ -10,6 +11,7 @@ const LandingPage = () => {
       <Header/>
       <HeroSection/>
       <WhatWeDeliver/>
+      <IntegrationSection/>
       <Footer/>
     </div>
   )
