@@ -2,6 +2,7 @@ import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { verifyEmail } from '../mailer/verifyEmail.js';
+import { Session } from '../models/sessionModel.js';
 
 export const registerUser=async(req,res)=>{
     try{
@@ -90,4 +91,60 @@ export const verify=async(req,res)=>{
             message:'Internal server error',
         })
     };   
+}
+export const login=async(req,res)=>{
+    try{
+        const {email,password}=req.body;
+        if(!email || !password){
+            return res.status(400).json({
+                success:false,
+                message:"All fields are required",
+            })
+        }  
+        const existingUser=await User.findOne({email});
+        if(!existingUser){
+            return res.status(400).json({
+                success:false,
+                message:"User doesn't exist",
+            })
+        }
+        const isPassword=await bcrypt.compare(password,existingUser.password);
+        if(!isPassword){
+            return res.status(400).json({
+                success:false,
+                message:"Invalid Credentials"
+            })
+        }
+        if(existingUser.isVerified===false){
+            return res.status(400).json({
+                success:false,
+                message:"Verify your account then login",
+            })
+        }
+
+        const accessToken=jwt.sign({id:existingUser._id},process.env.SECRET_KEY,{expiresIn:'15m'});
+        const refreshToken=jwt.sign({id:existingUser._id},process.env.SECRET_KEY,{expiresIn:'1y'});
+
+        existingUser.isLoggedIn=true,
+        await existingUser.save();
+
+        const existingSession=await Session.findOne({userId:existingUser._id});
+        if(existingSession){
+            await Session.deleteOne({userId:existingUser._id});
+        }
+        await Session.create({userId:existingUser._id});
+
+        return res.status(200).json({
+            success:true,
+            message:`Welcome back ${existingUser.name}`,
+            user:existingUser,
+            accessToken,
+            refreshToken,
+        })
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:"Internal Server Error",
+        })
+    }
 }
