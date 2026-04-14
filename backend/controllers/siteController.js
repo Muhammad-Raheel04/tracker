@@ -2,6 +2,7 @@ import Site from '../models/siteModel.js';
 import { sanitizeDomain } from '../utils/santizeDomain.js';
 import { isValidDomain } from '../utils/domainValidator.js';
 import { generateToken } from '../utils/tokenGenerator.js';
+import { isTrustedPlatformDomain } from '../utils/trustedPlatform.js';
 
 export const getVersion = (req, res) => {
     res.json({ version: '1.0.0' });
@@ -36,11 +37,15 @@ export const registerSite = async (req, res) => {
         }
 
         const token = generateToken();
-
+        const isTrsusted=isTrustedPlatformDomain(domain);
         const site = await Site.create({
             name,
             domain,
             token,
+            ownerId:req.user.id,
+            ownerName:req.user.name,
+            verificationStatus:'pending',
+            domainType:isTrsusted?"platform":"custom"
         });
 
         return res.status(201).json({
