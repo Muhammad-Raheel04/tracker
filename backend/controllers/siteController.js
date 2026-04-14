@@ -1,5 +1,7 @@
 import Site from '../models/siteModel.js';
-import crypto from 'crypto';
+import { sanitizeDomain } from '../utils/santizeDomain.js';
+import { isValidDomain } from '../utils/domainValidator.js';
+import { generateToken } from '../utils/tokenGenerator.js';
 
 export const getVersion = (req, res) => {
     res.json({ version: '1.0.0' });
@@ -7,14 +9,23 @@ export const getVersion = (req, res) => {
 
 export const registerSite = async (req, res) => {
     try {
-        const { name, domain } = req.body;
+        const { name, domain:rawDomain } = req.body;
 
-        if (!name || !domain) {
+        if (!name || !rawDomain) {
             return res.status(400).json({
                 success: false,
                 message: "name and domain are required"
             });
         }
+        const domain=sanitizeDomain(rawDomain);
+
+        if(!isValidDomain(domain)){
+            return res.status(400).json({
+                success:false,
+                message:'Invalid domain format',
+            })
+        }
+
         const existing = await Site.findOne({ domain });
         if (existing) {
             return res.status(409).json({
@@ -24,7 +35,7 @@ export const registerSite = async (req, res) => {
             });
         }
 
-        const token = crypto.randomUUID();
+        const token = generateToken();
 
         const site = await Site.create({
             name,
