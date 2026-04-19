@@ -45,14 +45,14 @@ export const registerSite = async (req, res) => {
             token,
             ownerId: req.user.id,
             ownerName: req.user.name,
-            verificationStatus: isTrsusted ? 'verified' : 'pending',
-            domainType: isTrsusted ? "platform" : "custom"
+            verificationStatus: isTrusted ? 'verified' : 'pending',
+            domainType: isTrusted ? "platform" : "custom"
         });
 
         return res.status(201).json({
             success: true,
-            message: isTrsusted ? "Site registered and Verified" : "Site registered Verification Pending",
-            token: isTrsusted ? undefined : token,
+            message: isTrusted ? "Site registered and Verified" : "Site registered Verification Pending",
+            token: isTrusted ? undefined : token,
         });
 
     } catch (error) {
