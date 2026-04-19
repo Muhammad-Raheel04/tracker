@@ -20,6 +20,12 @@ export const trackPageVisits= async (req, res) => {
             })
         }
 
+        if(site.verificationStatus!=='verified'){
+            return res.status(403).json({
+                success:false,
+                message:"Site not verified",
+            })
+        }
         await PageVisit.create({
             siteId: site._id,
             sessionId,
