@@ -53,7 +53,7 @@ export const registerSite = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: isTrusted ? "Site registered and Verified" : "Site registered Verification Pending",
-            token: isTrusted ? undefined : token,
+            token: isTrusted ? token : undefined,
         });
 
     } catch (error) {
@@ -134,20 +134,20 @@ export const getScript = async (req, res) => {
             })
         }
 
-        if (site.verificationStatus !=='verified'){
+        if (site.verificationStatus !== 'verified') {
             return res.status(403).json({
-                success:false,
-                message:"Site not verified",
+                success: false,
+                message: "Site not verified",
             })
         }
 
-        const scriptTag=`<script src="${process.env.SCRIPT_BASE_URL}/analytics.js" data-token="${site.token}" defer></script>`;
-        
+        const scriptTag = `<script src="${process.env.SCRIPT_BASE_URL}/analytics.js" data-token="${site.token}" defer></script>`;
+
         return res.status(200).json({
-            success:true,
-            scriptUrl:`${process.env.SCRIPT_BASE_URL}/analytics.js`,
-            data_token:`${site.token}`,
-            generatedAt:new Date(),
+            success: true,
+            scriptUrl: `${process.env.SCRIPT_BASE_URL}/analytics.js`,
+            data_token: `${site.token}`,
+            generatedAt: new Date(),
         })
     } catch (error) {
         return res.status(500).json({
