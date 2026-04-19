@@ -1,5 +1,5 @@
 (() => {
-    const API_URL = `https://tracker-production-6e5f.up.railway.app/api/v1/visits/track`;
+    const API_URL = `https://tracker-production-25f3.up.railway.app/api/v1/visits/track`;
     const script = document.querySelector(
         'script[src*="analytics.js"][data-token]'
     );
