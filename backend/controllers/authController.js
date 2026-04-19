@@ -154,3 +154,48 @@ export const login = async (req, res) => {
         })
     }
 }
+export const refreshToken = async (req, res) => {
+    try {
+        const { refreshToken } = req.body;
+        if (!refreshToken) {
+            return res.status(401).json({
+                success: false,
+                message: "Refresh token missing",
+            })
+        }
+
+        let decoded;
+        try {
+            decoded = await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+        } catch (error) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid or expired refresh token"
+            })
+        }
+        const session = await Session.findOne({
+            userId: decoded.id,
+            refreshToken
+        })
+        if (!session) {
+            return res.status(403).json({
+                success: false,
+                message: "Session not found",
+            })
+        }
+        const newAccessToken = jwt.sign(
+            { id: decoded.id },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "1h" }
+        )
+        return res.status(200).json({
+            success: true,
+            accessToken: newAccessToken
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+}
