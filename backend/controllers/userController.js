@@ -108,8 +108,8 @@ export const login=async(req,res)=>{
                 message:"User doesn't exist",
             })
         }
-        const isPassword=await bcrypt.compare(password,existingUser.password);
-        if(!isPassword){
+        const isMatch=await bcrypt.compare(password,existingUser.password);
+        if(!isMatch){
             return res.status(400).json({
                 success:false,
                 message:"Invalid Credentials"
@@ -138,8 +138,8 @@ export const login=async(req,res)=>{
             success:true,
             message:`Welcome back ${existingUser.name}`,
             user:existingUser,
-            accessToken,
-            refreshToken,
+            accessToken:accessToken,
+            refreshToken:refreshToken,
         })
     }catch(error){
         return res.status(500).json({
