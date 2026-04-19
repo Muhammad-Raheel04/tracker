@@ -3,6 +3,7 @@ import { sanitizeDomain } from '../utils/santizeDomain.js';
 import { isValidDomain } from '../utils/domainValidator.js';
 import { generateToken } from '../utils/tokenGenerator.js';
 import { isTrustedPlatformDomain } from '../utils/trustedPlatform.js';
+import { VerifyDomain } from '../services/dnsService.js';
 
 export const getVersion = (req, res) => {
     res.json({ version: '1.0.0' });
@@ -10,7 +11,7 @@ export const getVersion = (req, res) => {
 
 export const registerSite = async (req, res) => {
     try {
-        const { name, domain:rawDomain } = req.body;
+        const { name, domain: rawDomain } = req.body;
 
         if (!name || !rawDomain) {
             return res.status(400).json({
@@ -18,12 +19,12 @@ export const registerSite = async (req, res) => {
                 message: "name and domain are required"
             });
         }
-        const domain=sanitizeDomain(rawDomain);
+        const domain = sanitizeDomain(rawDomain);
 
-        if(!isValidDomain(domain)){
+        if (!isValidDomain(domain)) {
             return res.status(400).json({
-                success:false,
-                message:'Invalid domain format',
+                success: false,
+                message: 'Invalid domain format',
             })
         }
 
@@ -37,24 +38,86 @@ export const registerSite = async (req, res) => {
         }
 
         const token = generateToken();
-        const isTrsusted=isTrustedPlatformDomain(domain);
+        const isTrsusted = isTrustedPlatformDomain(domain);
         const site = await Site.create({
             name,
             domain,
             token,
-            ownerId:req.user.id,
-            ownerName:req.user.name,
-            verificationStatus:'pending',
-            domainType:isTrsusted?"platform":"custom"
+            ownerId: req.user.id,
+            ownerName: req.user.name,
+            verificationStatus: isTrsusted ? 'verified' : 'pending',
+            domainType: isTrsusted ? "platform" : "custom"
         });
 
         return res.status(201).json({
             success: true,
-            message: "Site registered",
-            token,
+            message: isTrsusted ? "Site registered and Verified" : "Site registered Verification Pending",
+            token: isTrsusted ? undefined : token,
         });
 
     } catch (error) {
-        return res.status(500).json({ success: false, message: error.message });
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
 };
+
+export const verifySite = async (req, res) => {
+    try {
+        const { siteId } = req.params;
+        if (!siteId) {
+            return res.status(400).json({
+                success: false,
+                message: "siteId  missing",
+            })
+        }
+        const site = await Site.findById(siteId);
+        if (!site) {
+            return res.status(404).json({
+                success: false,
+                meessage: "Site not found",
+            })
+        }
+        if(site.ownerId.toString() !== req.user.id){
+            return res.status(403).json({
+                success:false,
+                message:"You are not authorized"
+            })
+        }
+        if (site.verificationStatus === 'verified') {
+            return res.status(200).json({
+                success: true,
+                message: "Already Verified",
+            })
+        }
+        if (site.domainType === 'platform') {
+            site.verificationStatus = 'verified';
+            await site.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Verified Successfully (Platform domain)",
+            })
+        }
+        const isFound = await VerifyDomain(site.domain, site.token);
+        if (isFound.ok) {
+            site.verificationStatus = 'verified',
+                await site.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Domain verified successfully",
+            })
+        }
+        return res.status(400).json({
+            success: false,
+            message: isFound.message,
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    };
+}

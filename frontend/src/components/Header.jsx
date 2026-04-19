@@ -42,7 +42,7 @@ const Header = () => {
 
         {isMenuOpen && (
           <>
-            <div className="fixed right-0 top-0 z-50 flex flex-col bg-[#002f2b] w-[240px] h-auto shadow-lg">
+            <div className="fixed right-0 top-0 z-50 flex flex-col bg-[#002f2b] w-[240px] h-full shadow-lg">
 
               <div className="flex justify-between items-center p-4 border-b border-gray-600">
                 <h2 className="text-white text-lg pb-1">Menu</h2>
@@ -56,12 +56,7 @@ const Header = () => {
                 <Link to="/features" onClick={() => setIsMenuOpen(false)} className='border-b border-[#14ead8] pb-2'>Features</Link>
                 <Link to="/pricing" onClick={() => setIsMenuOpen(false)} className='border-b border-[#14ead8] pb-2'>Pricing</Link>
                 <Link to="/docs" onClick={() => setIsMenuOpen(false)} className='border-b border-[#14ead8] pb-2'>Docs</Link>
-
-                <Link to="/">
-                  <button className="mt-4 w-full bg-[#14ead8] text-black py-2 rounded-md font-semibold">
-                    Get Started
-                  </button>
-                </Link>
+                
               </nav>
             </div>
 
