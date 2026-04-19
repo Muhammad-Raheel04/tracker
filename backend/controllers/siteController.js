@@ -46,6 +46,7 @@ export const registerSite = async (req, res) => {
             ownerId: req.user.id,
             ownerName: req.user.name,
             verificationStatus: isTrusted ? 'verified' : 'pending',
+            verifiedAt:isTrusted?new Date():null,
             domainType: isTrusted ? "platform" : "custom"
         });
 
