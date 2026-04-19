@@ -5,7 +5,7 @@ export const isAuthenticated = async (req, res, next) => {
     try {
         const authHeader  = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(400).json({
+            return res.status(401).json({
                 success: false,
                 message: "Token missing"
             })
@@ -13,15 +13,15 @@ export const isAuthenticated = async (req, res, next) => {
         const token = authHeader.split(' ')[1];
         let decoded;
         try {
-            decoded = jwt.verify(token, process.env.SECRET_KEY);
+            decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         } catch (error) {
             if (error.name === "TokenExpiredError") {
-                return res.status(400).json({
+                return res.status(401).json({
                     success: false,
                     message: "Access token has expired"
                 })
             }
-            return res.status(400).json({
+            return res.status(401).json({
                 success: false,
                 message: "Access token is missing or invalid"
             })
