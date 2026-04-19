@@ -38,7 +38,7 @@ export const registerSite = async (req, res) => {
         }
 
         const token = generateToken();
-        const isTrsusted = isTrustedPlatformDomain(domain);
+        const isTrusted = isTrustedPlatformDomain(domain);
         const site = await Site.create({
             name,
             domain,
@@ -102,7 +102,7 @@ export const verifySite = async (req, res) => {
         }
         const isFound = await VerifyDomain(site.domain, site.token);
         if (isFound.ok) {
-            site.verificationStatus = 'verified',
+            site.verificationStatus = 'verified';
                 await site.save();
 
             return res.status(200).json({
