@@ -5,7 +5,7 @@ import pageVisitRoutes from './routes/pageVisitRoutes.js';
 import siteRoutes from './routes/siteRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
-
+import cors from 'cors';
 const app=express();
 const PORT=process.env.PORT;
 
