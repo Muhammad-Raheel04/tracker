@@ -46,7 +46,7 @@ export const registerSite = async (req, res) => {
             ownerId: req.user.id,
             ownerName: req.user.name,
             verificationStatus: isTrusted ? 'verified' : 'pending',
-            verifiedAt:isTrusted?new Date():null,
+            verifiedAt: isTrusted ? new Date() : null,
             domainType: isTrusted ? "platform" : "custom"
         });
 
@@ -80,10 +80,10 @@ export const verifySite = async (req, res) => {
                 message: "Site not found",
             })
         }
-        if(site.ownerId.toString() !== req.user.id){
+        if (site.ownerId.toString() !== req.user.id) {
             return res.status(403).json({
-                success:false,
-                message:"You are not authorized"
+                success: false,
+                message: "You are not authorized"
             })
         }
         if (site.verificationStatus === 'verified') {
@@ -104,7 +104,7 @@ export const verifySite = async (req, res) => {
         const isFound = await VerifyDomain(site.domain, site.token);
         if (isFound.ok) {
             site.verificationStatus = 'verified';
-                await site.save();
+            await site.save();
 
             return res.status(200).json({
                 success: true,
@@ -121,4 +121,38 @@ export const verifySite = async (req, res) => {
             message: error.message,
         })
     };
+}
+export const getScript = async (req, res) => {
+    try {
+        const { siteId } = req.params;
+
+        const site = await Site.findById(siteId);
+        if (!site) {
+            return res.status(404).json({
+                success: false,
+                message: "Site not found",
+            })
+        }
+
+        if (site.verificationStatus !=='verified'){
+            return res.status(403).json({
+                success:false,
+                message:"Site not verified",
+            })
+        }
+
+        const scriptTag=`<script src="${process.env.SCRIPT_BASE_URL}/analytics.js" data-token="${site.token}" defer></script>`;
+        
+        return res.status(200).json({
+            success:true,
+            scriptUrl:`${process.env.SCRIPT_BASE_URL}/analytics.js`,
+            data_token:`${site.token}`,
+            generatedAt:new Date(),
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
 }
