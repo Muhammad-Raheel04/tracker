@@ -4,10 +4,13 @@ import { connectDB } from './config/db.js';
 import pageVisitRoutes from './routes/pageVisitRoutes.js';
 import siteRoutes from './routes/siteRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import healthRoutes from './routes/healthRoutes.js';
+
 const app=express();
 const PORT=process.env.PORT;
 
 app.use(express.json())
+app.use('/api/v1/health',healthRoutes);
 app.use('/api/v1/sites',siteRoutes);
 app.use('/api/v1/analytics',pageVisitRoutes)
 app.use('/api/v1/auth',authRoutes)
