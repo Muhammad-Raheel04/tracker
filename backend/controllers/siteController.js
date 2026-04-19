@@ -76,7 +76,7 @@ export const verifySite = async (req, res) => {
         if (!site) {
             return res.status(404).json({
                 success: false,
-                meessage: "Site not found",
+                message: "Site not found",
             })
         }
         if(site.ownerId.toString() !== req.user.id){
