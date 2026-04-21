@@ -5,9 +5,6 @@ import { generateToken } from '../utils/tokenGenerator.js';
 import { isTrustedPlatformDomain } from '../utils/trustedPlatform.js';
 import { VerifyDomain } from '../services/dnsService.js';
 
-export const getVersion = (req, res) => {
-    res.json({ version: '1.0.0' });
-}
 
 export const registerSite = async (req, res) => {
     try {
