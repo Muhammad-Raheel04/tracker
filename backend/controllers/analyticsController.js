@@ -1,5 +1,12 @@
 import Site from '../models/siteModel.js'
 import PageVisit from '../models/pageVisitModel.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename=fileURLToPath(import.meta.url);
+const __dirname=path.dirname(__filename);
+const SCRIPT_DIR=path.join(__dirname,'../public');
 
 export const trackPageVisits= async (req, res) => {
     try {
@@ -48,3 +55,39 @@ export const trackPageVisits= async (req, res) => {
         })
     }
 }
+export const getVersion = (req, res) => {
+    res.json({ version: '1.0.0' });
+}
+export const serveLoader = (req, res) => {
+    try {
+        const filePath = path.join(SCRIPT_DIR, 'analytics.js');
+
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send('// Script not found');
+        }
+
+        res.setHeader('Content-Type', 'application/javascript');
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        res.sendFile(filePath);
+    } catch (error) {
+        res.status(500).send('// Internal server error');
+    }
+};
+export const serveTrackerScript = async (req, res) => {
+    try {
+        const { version } = req.params;
+
+        const filePath = path.join(SCRIPT_DIR, `analytics.v${version}.js`);
+
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send('// Version not found');
+        }
+
+        res.setHeader('Content-Type', 'application/javascript');
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        res.sendFile(filePath);
+
+    } catch (error) {
+        res.status(500).send('Internal server error');
+    }
+};
