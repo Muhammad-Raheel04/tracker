@@ -1,5 +1,5 @@
 import express from 'express';
-import { getScript, registerSite, verifySite } from '../controllers/siteController.js';
+import { getAllSites, getScript, registerSite, verifySite } from '../controllers/siteController.js';
 import { isAuthenticated } from '../middleware/isAuthenticated.js';
 
 const router=express.Router();
@@ -8,4 +8,6 @@ const router=express.Router();
 router.post('/register',isAuthenticated,registerSite);
 router.post('/verify/:siteId',isAuthenticated,verifySite);
 router.get('/script/:siteId',isAuthenticated,getScript);
+router.get('/all-sites',isAuthenticated,getAllSites);
+
 export default router;
