@@ -4,7 +4,7 @@ import { isValidDomain } from '../utils/domainValidator.js';
 import { generateToken } from '../utils/tokenGenerator.js';
 import { isTrustedPlatformDomain } from '../utils/trustedPlatform.js';
 import { VerifyDomain } from '../services/dnsService.js';
-
+import User from '../models/userModel.js';
 
 export const registerSite = async (req, res) => {
     try {
@@ -150,6 +150,31 @@ export const getScript = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: error.message,
+        })
+    }
+}
+export const getAllSites=async(req,res)=>{
+    try{
+        const userId=req.user.id;
+        
+        const sites=await Site.find({ownerId:userId})
+            .select("_id name domain verificationStatus")
+            .lean();
+        if(sites.length===0){
+            return res.status(200).json({
+                success:true,
+                message:"No Sites Registered",
+            })
+        }
+        return res.status(200).json({
+            success:true,
+            sites,
+        })
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:"Internal Server Error",
+            error:error.message,
         })
     }
 }
