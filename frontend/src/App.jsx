@@ -3,6 +3,7 @@ import './App.css'
 import LandingPage from './pages/LandingPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AnalyticsPage from './pages/AnalyticsPage';
+import Signup from './pages/Signup';
 
 const router=createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router=createBrowserRouter([
     path:"/analytics",
     element:<><AnalyticsPage></AnalyticsPage></>
   },
+  {
+    path:"/register",
+    element:<><Signup></Signup></>
+  }
 ])
 const App = () => {
   return (
