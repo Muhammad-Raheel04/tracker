@@ -4,7 +4,7 @@ import LandingPage from './pages/LandingPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AnalyticsPage from './pages/AnalyticsPage';
 import Signup from './pages/Signup';
-
+import Login from './pages/Login';
 const router=createBrowserRouter([
   {
     path:"/",
@@ -17,6 +17,10 @@ const router=createBrowserRouter([
   {
     path:"/register",
     element:<><Signup></Signup></>
+  },
+  {
+    path:"/login",
+    element:<><Login></Login></>
   }
 ])
 const App = () => {
