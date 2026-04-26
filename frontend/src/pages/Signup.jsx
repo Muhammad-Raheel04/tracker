@@ -4,7 +4,11 @@ import { Eye, EyeOff } from 'lucide-react'
 
 const Signup = () => {
   const [show, setShow] = useState(false);
-
+  const [formData,setFormData]=useState({
+    name:"",
+    email:"",
+    password:"",
+  })
   return (
     <div className='flex justify-center items-center h-screen bg-[#003F3A]'>
       <form className='flex flex-col items-center bg-[#042f2b] text-white px-8 py-12 rounded-lg gap-3 max-w-md w-full m-4'>
