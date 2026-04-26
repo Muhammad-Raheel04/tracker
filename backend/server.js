@@ -10,7 +10,8 @@ const app=express();
 const PORT=process.env.PORT;
 
 app.use(cors({
-    origin:'*',
+    origin:process.env.FRONTEND_URL,
+    credentials:true,
 }));
 app.use(express.json())
 app.use('/api/v1/health',healthRoutes);
