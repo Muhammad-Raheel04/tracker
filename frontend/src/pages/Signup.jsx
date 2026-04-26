@@ -7,7 +7,7 @@ const Signup = () => {
 
   return (
     <div className='flex justify-center items-center h-screen bg-[#003F3A]'>
-      <div className='flex flex-col items-center bg-[#042f2b] text-white px-8 py-12 rounded-lg gap-3 max-w-md w-full m-4'>
+      <form className='flex flex-col items-center bg-[#042f2b] text-white px-8 py-12 rounded-lg gap-3 max-w-md w-full m-4'>
         <h1 className='text-2xl text-center'>Tracker</h1>
         <p className='text-gray-400 text-center mt-1'>Create your account</p>
 
@@ -67,7 +67,7 @@ const Signup = () => {
             <Link to="/login" className='text-[#05fce8]'> Login</Link>
           </p>
         </div>
-      </div>
+      </form>
     </div>
   )
 }
