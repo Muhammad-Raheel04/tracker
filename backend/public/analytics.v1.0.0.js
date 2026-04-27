@@ -36,6 +36,7 @@
                     token,
                     sessionId: getSessionId(),
                     pageUrl: window.location.pathname,
+                    domain:window.location.origin,
                     referrer: document.referrer || null,
                 })
             }).catch(() => { })
