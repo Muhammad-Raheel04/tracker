@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import API from '../utils/API';
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -19,9 +20,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await API.post("/auth/login", formData)
-      console.log(res.data);
+      toast.success(res.data.message);
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message)
     }
   }
   return (
