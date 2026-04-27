@@ -3,6 +3,7 @@ import PageVisit from '../models/pageVisitModel.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { sanitizeDomain } from '../utils/santizeDomain.js';
 
 const __filename=fileURLToPath(import.meta.url);
 const __dirname=path.dirname(__filename);
@@ -10,20 +11,20 @@ const SCRIPT_DIR=path.join(__dirname,'../public');
 
 export const trackPageVisits= async (req, res) => {
     try {
-        const { token, sessionId, pageUrl, referrer } = req.body;
-        if (!token || !pageUrl || !sessionId) {
+        const { token, sessionId, pageUrl, referrer ,domain:rawDomain} = req.body;
+        if (!token || !pageUrl || !sessionId || !rawDomain) {
             return res.status(400).json({
                 success: false,
-                message: "token, sessionId and pageUrl are required"
+                message: "token, sessionId, rawDomain and pageUrl are required"
             })
         }
-
+        const domain=sanitizeDomain(rawDomain);
         const site = await Site.findOne({ token });
 
-        if (!site) {
+        if (site.domain!==domain) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid token"
+                message: "Your domain is not authorized for this request"
             })
         }
 
