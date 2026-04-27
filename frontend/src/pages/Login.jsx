@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import API from '../utils/API';
@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const navigate=useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,6 +22,7 @@ const Login = () => {
     try {
       const res = await API.post("/auth/login", formData)
       toast.success(res.data.message);
+      navigate('/');
     } catch (error) {
       toast.error(error?.response?.data?.message)
     }
