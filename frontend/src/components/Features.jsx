@@ -1,4 +1,4 @@
-import { Code } from 'lucide-react'
+import { Activity, Calendar, ChartArea, Code, Globe, Ligature, Lightbulb, Shield, Zap } from 'lucide-react'
 import React from 'react'
 
 const siteFeatures = [
@@ -10,31 +10,31 @@ const siteFeatures = [
     },
     {
         number: "02",
-        icon: <Code />,
+        icon: <ChartArea />,
         heading: "Real-time Page Visit Tracking",
         text: "Monitor your website traffic in real-time with instant updates and accurate visitor counts."
     },
     {
         number: "03",
-        icon: <Code />,
+        icon: <Shield/>,
         heading: "Domain Verification via DNS",
         text: "Secure your analytics with DNS-based domain verification. Only you can track your sites"
     },
     {
         number: "04",
-        icon: <Code />,
+        icon: <Calendar />,
         heading: "Session-based Analytics",
         text: "Track unique sessions and user behavior patterns to understand your audience better."
     },
     {
         number: "05",
-        icon: <Code />,
+        icon: <Globe/>,
         heading: "Multi-site Management",
         text: "Manage analytics for multiple websites from a single dashboard. Perfect for agencies."
     },
     {
         number: "06",
-        icon: <Code />,
+        icon: <Zap/>,
         heading: "Lightweight & Fast",
         text: "Our script is under 5KB and loads asynchronously. Zero impact on your site performance."
     },
