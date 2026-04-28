@@ -58,16 +58,16 @@ const Features = () => {
                 <p className='p-4 text-xs text-center text-white'>A complete analytics suite built for modern teams that is actually simple to integrate</p>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mx-20 mt-10'>
-                {siteFeatures.map((feature) => (
-                    <div className='bg-[#042f2b] p-6 rounded-lg hover:border-l-2 border-[#14ead8] py-8 shadow-md'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mx-10 mt-10'>
+                {siteFeatures.map((feature,index) => (
+                    <div key={index} className='bg-[#042f2b] py-8 px-5 rounded-lg hover:border-l-2 border-[#14ead8] shadow-md'>
                         <div className='flex justify-between'>
                             <p className='text-[#14ead8]'>{feature.number}</p>
                             <p className='text-[#14ead8]'>{feature.icon}</p>
                         </div>
                         <div className='flex flex-col gap-4 mt-2'>
                             <h2 className='text-2xl text-[#14ead8] font-bold '>{feature.heading}</h2>
-                            <p className='text-gray-50'>{feature.text}</p>
+                            <p className='text-gray-400 text-sm'>{feature.text}</p>
                         </div>
                     </div>
 
