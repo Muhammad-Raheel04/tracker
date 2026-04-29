@@ -11,7 +11,7 @@ const TrackingScript = () => {
     }
     return (
         <>
-        <div className='flex flex-col justify-center items-center md:gap-8 gap-4 bg-black px-4 py-10 '>
+        <div className='flex flex-col justify-center items-center md:gap-8 gap-4 bg-black px-4 py-40 '>
             <h2 className='text-xl md:text-5xl text-[#05fce8]'>Get Script Get Started!</h2>
             <div className='border border-[#05fce8] rounded-md px-4 w-full max-w-lg'>
                 <div className='flex justify-between items-center border-b border-gray-400 mb-2 py-2  '>
