@@ -22,8 +22,8 @@ const steps = [
 ]
 const SystemFlow = () => {
     return (
-        <div className="flex flex-col gap-4 justify-center items-center bg-[#003F3A] py-20 px-4">
-            <h2 className="text-5xl text-white">How It Works</h2>
+        <div className="flex flex-col gap-4 justify-center items-center bg-[#003F3A] py-40 px-4">
+            <h2 className="text-5xl text-white pb-10">How It Works</h2>
             <div className="flex flex-col md:flex-row justify-center">
                 {steps.map((step,index)=>(
                     <div key={index} className="flex flex-col justify-center items-center gap-2 mt-6">
