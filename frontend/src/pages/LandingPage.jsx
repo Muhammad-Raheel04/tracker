@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Features from '../components/Features'
 import SystemFlow from '../components/SystemFlow'
+import TrackingScript from '../components/TrackingScript'
 
 const LandingPage = () => {
   return (
@@ -12,6 +13,7 @@ const LandingPage = () => {
       <HeroSection/>
       <Features/>
       <SystemFlow/>
+      <TrackingScript/>
       <Footer/>
     </div>
   )
