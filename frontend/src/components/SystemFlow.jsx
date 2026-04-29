@@ -23,9 +23,21 @@ const steps = [
 const SystemFlow = () => {
     return (
         <div className="flex flex-col gap-4 justify-center items-center bg-[#003F3A] py-40 px-4">
-            <h2 className="text-5xl text-white pb-10">How It Works</h2>
+            <div className='flex flex-row items-center justify-center gap-2'>
+                <div className='w-10 md:w-16 h-px bg-[#14ead8]'></div>
+                <h2 className='text-sm md:text-xl text-[#14ead8] font-sans uppercase'>
+                    System Flow
+                </h2>
+                <div className='w-10 md:w-16 h-px bg-[#14ead8]'></div>
+            </div>
+            <div className='flex flex-col justify-center items-center text-3xl md:text-6xl md:py-2'>
+                <h2 className='text-white md:pb-2'>
+                    How It <span><i className='text-[#14ead8]'>Works</i></span>
+                </h2>
+                <p className='p-4 text-xs text-center text-white'>Get started in minutes with a simple setup process designed for speed and clarity.</p>
+            </div>
             <div className="flex flex-col md:flex-row justify-center">
-                {steps.map((step,index)=>(
+                {steps.map((step, index) => (
                     <div key={index} className="flex flex-col justify-center items-center gap-2 mt-6">
                         <div className="flex justify-center font-bold items-center text-2xl text-[#08cdbd]  bg-[#042f2b] p-8 border-3 border-[#08cdbd] rounded-full w-12 h-12 hover:bg-[#08cdbd] hover:text-[#042f2b]">
                             {step.number}
@@ -33,7 +45,7 @@ const SystemFlow = () => {
                         <div className="text-white md:text-2xl text-sm">
                             {step.heading}
                         </div>
-                         <div className="text-center text-gray-400">
+                        <div className="text-center text-gray-400">
                             {step.text}
                         </div>
                     </div>
