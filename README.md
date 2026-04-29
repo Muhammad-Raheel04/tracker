@@ -93,7 +93,7 @@ tracker/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -154,7 +154,7 @@ The frontend will run at `http://localhost:5173` by default.
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 ### Auth Routes `/api/auth`
 
@@ -240,7 +240,7 @@ This project is open source. Feel free to fork, modify, and deploy for your own 
 
 ---
 
-## 👤 Author
+## Author
 
 **Muhammad Raheel**
 - GitHub: [@Muhammad-Raheel04](https://github.com/Muhammad-Raheel04)
