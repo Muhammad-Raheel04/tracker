@@ -5,6 +5,7 @@ const pageVisitSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Site',
         required:true,
+        index:true
     },
     sessionId:{
         type:String,
