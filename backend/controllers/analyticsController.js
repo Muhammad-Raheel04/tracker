@@ -4,34 +4,35 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { sanitizeDomain } from '../utils/santizeDomain.js';
+import mongoose from 'mongoose';
 
-const __filename=fileURLToPath(import.meta.url);
-const __dirname=path.dirname(__filename);
-const SCRIPT_DIR=path.join(__dirname,'../public');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const SCRIPT_DIR = path.join(__dirname, '../public');
 
-export const trackPageVisits= async (req, res) => {
+export const trackPageVisits = async (req, res) => {
     try {
-        const { token, sessionId, pageUrl, referrer ,domain:rawDomain} = req.body;
+        const { token, sessionId, pageUrl, referrer, domain: rawDomain } = req.body;
         if (!token || !pageUrl || !sessionId || !rawDomain) {
             return res.status(400).json({
                 success: false,
                 message: "token, sessionId, rawDomain and pageUrl are required"
             })
         }
-        const domain=sanitizeDomain(rawDomain);
+        const domain = sanitizeDomain(rawDomain);
         const site = await Site.findOne({ token });
 
-        if (site.domain!==domain) {
+        if (site.domain !== domain) {
             return res.status(401).json({
                 success: false,
                 message: "Your domain is not authorized for this request"
             })
         }
 
-        if(site.verificationStatus!=='verified'){
+        if (site.verificationStatus !== 'verified') {
             return res.status(403).json({
-                success:false,
-                message:"Site not verified",
+                success: false,
+                message: "Site not verified",
             })
         }
         await PageVisit.create({
@@ -92,3 +93,34 @@ export const serveTrackerScript = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };
+export const getAnalytics = async (req, res) => {
+    try {
+        const { siteId } = req.params;
+        const analytics = await PageVisit.aggregate([
+            {
+                $match: {
+                    siteId: new mongoose.Types.ObjectId(siteId)
+                }
+            },
+            {
+                $group:
+                {
+                    _id: "$siteId",
+                    totalVisits: { $sum: 1 },
+                    uniqueVisitors: { $addToSet: "$sessionId" }
+                }
+            }
+        ])
+        return res.status(200).json({
+            success: true,
+            message: "Analytics Fetched Successfully",
+            analytics
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error:error.message
+        })
+    }
+}
