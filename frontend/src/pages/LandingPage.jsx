@@ -8,7 +8,7 @@ import TrackingScript from '../components/TrackingScript'
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className='bg-[#003F3A]'>
       <Header/>
       <HeroSection/>
       <Features/>
