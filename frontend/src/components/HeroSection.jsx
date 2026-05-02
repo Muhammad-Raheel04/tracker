@@ -9,7 +9,7 @@ const HeroSection = () => {
             <h2 className='text-white text-center text-lg px-10'>Simple, fast, and developer-friendly analytics. No complex setup. No repeated integration.</h2>
             <div className='flex flex-row gap-4 justify-center items-center'>
                 <div>
-                    <Link to="/">
+                    <Link to="/register">
                         <button className="bg-white  text-black p-3 rounded-full font-semibold">
                             Get Started
                         </button>
