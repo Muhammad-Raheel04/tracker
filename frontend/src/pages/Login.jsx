@@ -22,7 +22,8 @@ const Login = () => {
     try {
       const res = await API.post("/auth/login", formData)
       toast.success(res.data.message);
-      navigate('/');
+      localStorage.setItem('accessToken',res.data?.accessToken)
+      navigate('/dashboard');
     } catch (error) {
       toast.error(error?.response?.data?.message)
     }
