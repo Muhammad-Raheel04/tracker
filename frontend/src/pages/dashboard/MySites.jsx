@@ -4,16 +4,11 @@ import toast from 'react-hot-toast';
 
 const MySites = () => {
     const [sites, setSites] = useState([]);
-
+    const [isOpen, setOpen] = useState(false);
+    const [scriptData, setScript] = useState(null);
     const fetchSites = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-
-            const res = await API.get('/sites/all-sites', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
+            const res = await API.get('/sites/all-sites');
 
             setSites(res.data?.sites);
             toast.success(res.data?.message);
@@ -23,6 +18,18 @@ const MySites = () => {
         }
     }
 
+    const getScriptHandler = async (id) => {
+        try {
+            const res = await API.get(`/sites/script/${id}`);
+            setScript({
+                scriptUrl: res.data?.scriptUrl,
+                dataToken: res.data?.data_token,
+            });
+            setOpen(true);
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+        }
+    }
     useEffect(() => {
         fetchSites();
     }, []);
@@ -61,7 +68,7 @@ const MySites = () => {
                         <div className=' h-px bg-[#0b3f3a] my-5'></div>
                         <div className="mt-4 grid grid-cols-2 gap-2 items-center text-xs text-gray-400">
 
-                            <button className="font-bold text-black cursor-pointer p-2 bg-[#08cdbd] rounded-md">
+                            <button className="font-bold text-black cursor-pointer p-2 bg-[#08cdbd] rounded-md" onClick={() => getScriptHandler(site._id)} >
                                 Get Script
                             </button>
                             <button className="text-[#08cdbd] cursor-pointer p-2 bg-[#042f2b] rounded-md border border-[#08cdbd]">
@@ -71,6 +78,59 @@ const MySites = () => {
 
                     </div>
                 ))}
+                {isOpen && (
+                    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50">
+
+                        <div className="bg-[#042f2b] text-white p-6 rounded-2xl w-[90%] max-w-xl relative shadow-2xl border border-[#08cdbd]/20">
+
+                            {/* Close */}
+                            <button
+                                onClick={() => setOpen(false)}
+                                className="absolute top-4 right-4 text-[#08cdbd] hover:text-white text-lg"
+                            >
+                                ✕
+                            </button>
+
+
+                            <h3 className="text-xl font-medium text-[#08cdbd] mb-2">
+                                Install Tracking Script
+                            </h3>
+
+                            <p className="text-sm text-gray-400 mb-4">
+                                Paste this script inside the <code className="text-[#08cdbd]">&lt;head&gt;</code> of your website
+                            </p>
+
+                            <div className="bg-black rounded-lg p-4 text-sm text-gray-400 font-mono overflow-x-auto border border-[#08cdbd]/10">
+                                <code><span className='text-[#08cdbd]'>&lt;script</span> src="<span className='text-[#08cdbd]'>{scriptData?.scriptUrl}</span>" data-token="<span className='text-[#08cdbd]'>{scriptData?.dataToken}</span>" defer<span className='text-[#08cdbd]'>&gt;&lt;/script&gt;</span></code>
+                            </div>
+
+   
+
+                            <div className="flex gap-3 mt-5">
+
+                                <button
+                                    onClick={() => {
+                                        const script = `<script src="${scriptData?.scriptUrl}" data-token="${scriptData?.dataToken}" defer></script>`;
+                                        navigator.clipboard.writeText(script);
+                                        toast.success("Copied to clipboard!");
+                                    }}
+                                    className="flex-1 bg-[#08cdbd] text-black py-2 rounded-md font-semibold hover:opacity-90 transition"
+                                >
+                                    Copy Script
+                                </button>
+
+                                <button
+                                    onClick={() => setOpen(false)}
+                                    className="flex-1 border border-[#08cdbd] text-[#08cdbd] py-2 rounded-md hover:bg-[#08cdbd]/10 transition"
+                                >
+                                    Close
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )
