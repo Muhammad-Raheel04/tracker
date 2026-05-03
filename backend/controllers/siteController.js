@@ -138,7 +138,6 @@ export const getScript = async (req, res) => {
             })
         }
 
-        const scriptTag = `<script src="${process.env.SCRIPT_BASE_URL}/analytics.js" data-token="${site.token}" defer></script>`;
 
         return res.status(200).json({
             success: true,
