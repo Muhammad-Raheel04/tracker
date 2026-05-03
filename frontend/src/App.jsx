@@ -4,6 +4,8 @@ import LandingPage from './pages/LandingPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import MySites from './pages/dashboard/MySites';
 const router=createBrowserRouter([
   {
     path:"/",
@@ -16,6 +18,15 @@ const router=createBrowserRouter([
   {
     path:"/login",
     element:<><Login></Login></>
+  },
+  {
+    path:"/dashboard",
+    element:<><Dashboard></Dashboard></>,
+    children:[
+      { path:'my-sites',
+        element:<><MySites></MySites></>
+      }
+    ]
   }
 ])
 const App = () => {
