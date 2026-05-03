@@ -24,8 +24,8 @@ const Sidebar = () => {
         }
     }
     return (
-        <div className="flex flex-col justify-between w-64  h-screen pt-4 bg-[#003F3A] text-white">
-            <div className="flex flex-col gap-2">
+        <div className="flex flex-col justify-between w-64  h-screen pt-4 bg-[#042f2b] text-white">
+            <div className="flex flex-col gap-2 p-2">
 
                 <NavLink
                     to='/dashboard/overview'
