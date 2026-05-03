@@ -23,6 +23,7 @@ const Login = () => {
       const res = await API.post("/auth/login", formData)
       toast.success(res.data.message);
       localStorage.setItem('accessToken',res.data?.accessToken)
+      localStorage.setItem('refreshToken',res.data?.refreshToken);
       navigate('/dashboard');
     } catch (error) {
       toast.error(error?.response?.data?.message)
