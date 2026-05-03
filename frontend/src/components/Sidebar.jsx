@@ -1,9 +1,30 @@
-import { ChartArea, Globe, LayoutDashboard, Trash } from "lucide-react"
-import { NavLink } from "react-router-dom"
+import { ChartArea, Globe, LayoutDashboard, LogOut, Trash } from "lucide-react"
+import toast from "react-hot-toast"
+import { NavLink, useNavigate } from "react-router-dom"
+import API from "../utils/API"
 
 const Sidebar = () => {
-    return ( 
-        <div className="flex flex-col w-64  h-screen pt-4 bg-[#003F3A] text-white">
+    const navigate = useNavigate();
+    const logoutHandler = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const res = await API.post('/auth/logout', {},{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            if (res.data.success) {
+                toast.success(res.data?.message);
+                localStorage.removeItem('accessToken');
+                navigate('/')
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message || "Something went wrong");
+        }
+    }
+    return (
+        <div className="flex flex-col justify-between w-64  h-screen pt-4 bg-[#003F3A] text-white">
             <div className="flex flex-col gap-2">
 
                 <NavLink
@@ -38,6 +59,9 @@ const Sidebar = () => {
                     <Globe size={18} />
                     <span>My Sites</span>
                 </NavLink>
+            </div>
+            <div className="flex gap-2 p-4 cursor-pointer border-t border-[#08cdbd]" onClick={logoutHandler}>
+                <LogOut /><span>Logout</span>
             </div>
         </div>
     )
