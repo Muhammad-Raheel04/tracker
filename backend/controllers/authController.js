@@ -199,3 +199,22 @@ export const refreshToken = async (req, res) => {
         })
     }
 }
+
+export const logout=async(req,res)=>{
+    try{ 
+        const userId=req.user.id;
+        await Session.deleteMany({userId:userId});
+        await User.findOneAndUpdate(userId,{isLoggedIn:false});
+
+        return res.status(200).json({
+           success:true,
+           message:"Logged Out Successfully", 
+        })
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:"Internal Server Error",
+            error,
+        })
+    }
+}
