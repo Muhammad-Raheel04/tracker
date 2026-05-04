@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import MySites from './pages/dashboard/MySites';
+import AddSite from './pages/dashboard/AddSite';
 const router=createBrowserRouter([
   {
     path:"/",
@@ -25,6 +26,10 @@ const router=createBrowserRouter([
     children:[
       { path:'my-sites',
         element:<><MySites></MySites></>
+      },
+      {
+        path:'add-site',
+        element:<><AddSite></AddSite></>
       }
     ]
   }
