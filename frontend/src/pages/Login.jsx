@@ -3,10 +3,14 @@ import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import API from '../utils/API';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/userSlice';
 
 const Login = () => {
   const [show, setShow] = useState(false);
   const navigate=useNavigate();
+  const dispatch=useDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,6 +29,8 @@ const Login = () => {
       localStorage.setItem('accessToken',res.data?.accessToken)
       localStorage.setItem('refreshToken',res.data?.refreshToken);
       navigate('/dashboard');
+      dispatch(setUser(res.data.user));
+     
     } catch (error) {
       toast.error(error?.response?.data?.message)
     }
