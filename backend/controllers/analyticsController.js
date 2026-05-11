@@ -204,8 +204,8 @@ export const getAnalytics = async (req, res) => {
             uniqueVisitors: uniqueVisitors[0].uniqueVisitors || 0,
             PerPageVisits,
             referrerls,
-            topPage,
-            topReferrer,
+            topPage:topPage[0]?._id,
+            topReferrer:topReferrer[0]?._id,
         })
     } catch (error) {
         return res.status(500).json({
