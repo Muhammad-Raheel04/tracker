@@ -30,7 +30,7 @@ const Analytics = () => {
             value: response.data.topPage,
           }
         ])
-        console.log(response.data);
+        
         toast.success(response?.data?.message);
       } catch (error) {
         toast.error(error.response?.data?.message)
@@ -54,7 +54,7 @@ const Analytics = () => {
       </div>
 
       <div>
-        
+
       </div>
     </div>
   )
