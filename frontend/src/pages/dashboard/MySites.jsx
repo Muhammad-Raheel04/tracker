@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import API from '../../utils/API';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const MySites = () => {
     const [sites, setSites] = useState([]);
     const [isOpen, setOpen] = useState(false);
     const [scriptData, setScript] = useState(null);
+    const navigate = useNavigate();
     const fetchSites = async () => {
         try {
             const res = await API.get('/sites/all-sites');
@@ -34,6 +36,9 @@ const MySites = () => {
         fetchSites();
     }, []);
 
+    const handleNavigate = (id) => {
+        navigate(`/dashboard/analytics/${id}`);
+    }
     return (
         <div className="min-h-screen p-6 bg-[#003F3A]">
 
@@ -71,7 +76,7 @@ const MySites = () => {
                             <button className="font-bold text-black cursor-pointer p-2 bg-[#08cdbd] rounded-md" onClick={() => getScriptHandler(site._id)} >
                                 Get Script
                             </button>
-                            <button className="text-[#08cdbd] cursor-pointer p-2 bg-[#042f2b] rounded-md border border-[#08cdbd]">
+                            <button className="text-[#08cdbd] cursor-pointer p-2 bg-[#042f2b] rounded-md border border-[#08cdbd]" onClick={() => handleNavigate(site._id)}>
                                 Analytics
                             </button>
                         </div>
@@ -104,7 +109,7 @@ const MySites = () => {
                                 <code><span className='text-[#08cdbd]'>&lt;script</span> src="<span className='text-[#08cdbd]'>{scriptData?.scriptUrl}</span>" data-token="<span className='text-[#08cdbd]'>{scriptData?.dataToken}</span>" defer<span className='text-[#08cdbd]'>&gt;&lt;/script&gt;</span></code>
                             </div>
 
-   
+
 
                             <div className="flex gap-3 mt-5">
 
