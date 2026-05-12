@@ -185,16 +185,39 @@ export const getAnalytics = async (req, res) => {
             {
                 $group: {
                     _id: "$referrer",
-                    referrerCount:{$count:{}}
+                    referrerCount: { $count: {} }
+                }
+            },
+            {
+                $sort: {
+                    referCount: 1
+                }
+            },
+            {
+                $limit: 1
+            }
+        ])
+        const visitsOverTime = await PageVisit.aggregate([
+            {
+                $match: {
+                    siteId: new mongoose.Types.ObjectId(siteId),
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: {
+                            format: "%m/%d",
+                            date: "$createdAt"
+                        }
+                    },
+                    visits: { $sum: 1 }
                 }
             },
             {
                 $sort:{
-                    referCount:1
+                    _id:1
                 }
-            },
-            {
-                $limit:1
             }
         ])
         return res.status(200).json({
@@ -204,8 +227,9 @@ export const getAnalytics = async (req, res) => {
             uniqueVisitors: uniqueVisitors[0].uniqueVisitors || 0,
             PerPageVisits,
             referrerls,
-            topPage:topPage[0]?._id,
-            topReferrer:topReferrer[0]?._id,
+            topPage: topPage[0]?._id,
+            topReferrer: topReferrer[0]?._id,
+            visitsOverTime,
         })
     } catch (error) {
         return res.status(500).json({
