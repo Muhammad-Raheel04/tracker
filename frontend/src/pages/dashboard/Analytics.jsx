@@ -54,7 +54,7 @@ const Analytics = () => {
         {analyticsCards.map((analytics, index) => (
           <div key={index} className="flex-1 min-w-[230px] bg-[#042f2b] rounded-md shadow-sm hover:shadow-lg transition-all duration-300 p-5">
             <h2 className="text-gray-400 pb-2">{analytics?.title}</h2>
-            <h3 className="text-[#08cdbd] text-xl font-semibold">{analytics?.value}</h3>
+            <h3 className="text-[#08cdbd] text-xl font-semibold overflow-hidden">{analytics?.value}</h3>
           </div>
         ))}
       </div>
@@ -125,7 +125,7 @@ const Analytics = () => {
                 key={index}
                 className="flex justify-between items-center bg-[#003F3A] p-3 rounded-md"
               >
-                <h2 className="text-gray-300">{referrer?._id}</h2>
+                <h2 className="text-gray-300 overflow-hidden mr-8">{referrer?._id}</h2>
                 <p className="text-[#08cdbd]">{referrer?.referrerCount}</p>
               </div>
             ))}
