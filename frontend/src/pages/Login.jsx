@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import API from '../utils/API';
@@ -10,7 +10,8 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const navigate=useNavigate();
   const dispatch=useDispatch();
-
+  const location=useLocation();
+  const from =location.state?.from?.pathname || "/";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,7 +29,7 @@ const Login = () => {
       toast.success(res.data.message);
       localStorage.setItem('accessToken',res.data?.accessToken)
       localStorage.setItem('refreshToken',res.data?.refreshToken);
-      navigate('/dashboard/overview');
+      navigate(from,{replace:true});
       dispatch(setUser(res.data.user));
      
     } catch (error) {
