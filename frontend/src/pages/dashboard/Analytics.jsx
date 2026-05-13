@@ -10,6 +10,7 @@ const Analytics = () => {
   const [analyticsCards, setAnalyticsCards] = useState([]);
   const [visitsOverTime, setVisitsOverTime] = useState([]);
   const [referrers, setReferrers] = useState([]);
+  const [topPages, setTopPages] = useState([]);
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -35,6 +36,7 @@ const Analytics = () => {
         ])
         setVisitsOverTime(response.data?.visitsOverTime)
         setReferrers(response.data?.referrers);
+        setTopPages(response.data?.topPages);
         toast.success(response?.data?.message);
       } catch (error) {
         toast.error(error.response?.data?.message)
@@ -105,18 +107,53 @@ const Analytics = () => {
         </ResponsiveContainer>
       </div>
 
-      <div className="flex flex-wrap gap-2 items-center m-4">
-        <div className="">
-          {referrers.map((referrer, index) => (
-            <div key={index} className="flex justify-between gap-2 items-center bg-[#042f2b] p-4 rounded-md shadow-lg">
-              <h2 className="text-gray-400">{referrer?._id}</h2>
-              <p className="text-[#08cdbd]">{referrer?.referrerCount}</p>
-            </div>
-          ))}
-        </div>
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-4">
 
+        <div className="bg-[#042f2b] p-4 rounded-md shadow-lg">
+          <h2 className="text-[#08cdbd] text-xl font-semibold mb-3">
+            Top Referrers
+          </h2>
+
+          <div className="flex justify-between text-gray-400 text-sm mb-2">
+            <span>Source</span>
+            <span>Sessions</span>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {referrers.map((referrer, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center bg-[#003F3A] p-3 rounded-md"
+              >
+                <h2 className="text-gray-300">{referrer?._id}</h2>
+                <p className="text-[#08cdbd]">{referrer?.referrerCount}</p>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <div className="bg-[#042f2b] p-4 rounded-md shadow-lg">
+          <h2 className="text-[#08cdbd] text-xl font-semibold mb-3">
+            Top Pages
+          </h2>
+          <div className="flex justify-between text-gray-400 text-sm mb-2">
+            <span>Page URL</span>
+            <span>Views</span>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {topPages.map((topPage, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center bg-[#003F3A] p-3 rounded-md"
+              >
+                <h2 className="text-gray-300">{topPage?._id}</h2>
+                <p className="text-[#08cdbd]">{topPage?.totalVisits}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   )
