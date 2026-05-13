@@ -126,7 +126,7 @@ export const getAnalytics = async (req, res) => {
                 $count: "uniqueVisitors"
             }
         ])
-        const referrerls = await PageVisit.aggregate([
+        const referrals = await PageVisit.aggregate([
             {
                 $match: {
                     siteId: new mongoose.Types.ObjectId(siteId),
@@ -235,7 +235,7 @@ export const getAnalytics = async (req, res) => {
             totalVisits: totalVisits[0].totalVisits || 0,
             uniqueVisitors: uniqueVisitors[0].uniqueVisitors || 0,
             PerPageVisits,
-            referrerls,
+            referrals,
             topPage: topPage[0]?._id,
             topReferrer: topReferrer[0]?._id,
             visitsOverTime,
