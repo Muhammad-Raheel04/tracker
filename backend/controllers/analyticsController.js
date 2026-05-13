@@ -196,7 +196,7 @@ export const getAnalytics = async (req, res) => {
             },
             {
                 $sort: {
-                    referCount: 1
+                    referrerCount: 1
                 }
             },
             {
