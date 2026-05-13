@@ -181,6 +181,9 @@ export const getAnalytics = async (req, res) => {
                     totalVisits: -1
                 }
             },
+            {
+                $limit:5
+            }
         ])
         const topReferrer = await PageVisit.aggregate([
             {
