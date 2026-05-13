@@ -9,6 +9,7 @@ const Analytics = () => {
   const { siteId } = useParams();
   const [analyticsCards, setAnalyticsCards] = useState([]);
   const [visitsOverTime, setVisitsOverTime] = useState([]);
+  const [referrers, setReferrers] = useState([]);
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -33,6 +34,7 @@ const Analytics = () => {
           }
         ])
         setVisitsOverTime(response.data?.visitsOverTime)
+        setReferrers(response.data?.referrers);
         toast.success(response?.data?.message);
       } catch (error) {
         toast.error(error.response?.data?.message)
@@ -101,6 +103,20 @@ const Analytics = () => {
 
           </LineChart>
         </ResponsiveContainer>
+      </div>
+
+      <div className="flex flex-wrap gap-2 items-center m-4">
+        <div className="">
+          {referrers.map((referrer, index) => (
+            <div key={index} className="flex justify-between gap-2 items-center bg-[#042f2b] p-4 rounded-md shadow-lg">
+              <h2 className="text-gray-400">{referrer?._id}</h2>
+              <p className="text-[#08cdbd]">{referrer?.referrerCount}</p>
+            </div>
+          ))}
+        </div>
+        <div>
+
+        </div>
       </div>
     </div>
   )
