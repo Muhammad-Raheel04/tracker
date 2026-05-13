@@ -126,7 +126,7 @@ export const getAnalytics = async (req, res) => {
                 $count: "uniqueVisitors"
             }
         ])
-        const referrals = await PageVisit.aggregate([
+        const referrers = await PageVisit.aggregate([
             {
                 $match: {
                     siteId: new mongoose.Types.ObjectId(siteId),
@@ -181,9 +181,6 @@ export const getAnalytics = async (req, res) => {
                     totalVisits: -1
                 }
             },
-            {
-                $limit: 1
-            }
         ])
         const topReferrer = await PageVisit.aggregate([
             {
@@ -235,8 +232,9 @@ export const getAnalytics = async (req, res) => {
             totalVisits: totalVisits[0].totalVisits || 0,
             uniqueVisitors: uniqueVisitors[0].uniqueVisitors || 0,
             PerPageVisits,
-            referrals,
+            referrers,
             topPage: topPage[0]?._id,
+            topPages:topPage,
             topReferrer: topReferrer[0]?._id,
             visitsOverTime,
         })
